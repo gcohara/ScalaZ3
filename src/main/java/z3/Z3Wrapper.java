@@ -72,9 +72,13 @@ public final class Z3Wrapper {
     private static void loadFromJar() {
         String path = "SCALAZ3_" + versionString;
         File libDir = new File(System.getProperty("java.io.tmpdir") + DS + path + LIB_BIN);
+        File z3Lib = new File(libDir.getAbsolutePath() + DS + System.mapLibraryName("z3"));
+        File z3JavaLib = new File(libDir.getAbsolutePath() + DS + System.mapLibraryName("z3java"));
+        File scalaz3Lib = new File(libDir.getAbsolutePath() + DS + System.mapLibraryName("scalaz3"));
 
         try {
-            if (!libDir.isDirectory() || !libDir.canRead()) {
+            /// problem lay here
+            if (!libDir.isDirectory() || !libDir.canRead() || !z3Lib.exists() || !z3JavaLib.exists() || !scalaz3Lib.exists()) {
                 libDir.mkdirs();
                 extractFromJar(libDir);
             }
